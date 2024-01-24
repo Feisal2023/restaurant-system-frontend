@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../auth.module.scss";
 import Card from "../../../components/card/Card";
 import { BiLogIn } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import closeEYE from "../../../assets/eye-close.png";
+import openEYE from "../../../assets/eye-open.png";
 const Login = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [password, setPassword] = useState("");
+  const passwordToggle = () => {
+    setPasswordVisible(!passwordVisible);
+  };
   return (
     <div className={`container ${styles.auth}`}>
       <div className={styles["login-Symbol"]}>
@@ -17,23 +24,35 @@ const Login = () => {
           <form>
             <div className={styles["form-group"]}>
               <label>Email</label>
-              <input
-                type="email"
-                placeholder="Email"
-                autoComplete="off"
-                required
-                name="email"
-              />
+              <div className={styles["input-content"]}>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  autoComplete="off"
+                  required
+                  name="email"
+                />
+              </div>
             </div>
             <div className={styles["form-group"]}>
               <label>Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                autoComplete="off"
-                required
-                name="password"
-              />
+              <div className={styles["input-content"]}>
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
+                  autoComplete="off"
+                  required
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <img
+                  src={passwordVisible ? openEYE : closeEYE}
+                  alt="close-eye"
+                  className={styles["toggle-img"]}
+                  onClick={passwordToggle}
+                />
+              </div>
             </div>
             <div className={styles.remember}>
               <input type="checkbox" />

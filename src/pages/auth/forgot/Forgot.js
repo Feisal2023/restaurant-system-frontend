@@ -17,7 +17,9 @@ const Forgot = () => {
           <form>
             <div className={styles["form-group"]}>
               <label>Email</label>
-              <input type="email" placeholder="Email" required name="email" />
+              <div className={styles["input-content"]}>
+                <input type="email" placeholder="Email" required name="email" />
+              </div>
             </div>
             <button type="submit" className="--btn --btn-primary --btn-block">
               Get Reset Email
