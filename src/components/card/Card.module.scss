@@ -1,0 +1,15 @@
+.card {
+  border:  2px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+  }
+}

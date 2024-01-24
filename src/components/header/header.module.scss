@@ -1,0 +1,82 @@
+.fixed {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+}
+header {
+  width: 100%;
+  background: #fff;
+  .header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100px 400px auto 200px;
+    border: 1px solid #ccc;
+    border-bottom: 3px solid #ccc;
+    height: 6rem;
+ 
+  .logo {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    border-left:  1px solid #ccc;
+    border-right:  1px solid #ccc;
+    
+    h3 {
+      color: var(--color-danger);
+    }
+  
+  }
+  .logo:hover {
+    background-color: #ccc;
+    cursor: pointer;
+  }
+  .sign-In {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #ccc;
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background: var(--color-danger);
+    }
+    a {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 500;
+      
+    }
+    button:hover {
+      cursor: pointer;
+    }
+  }
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  header {
+    width: 100%;
+  .header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30px 400px 100px 0px;
+    .logo {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+      padding-left: 20px;
+    }
+    .sign-In { 
+      display: none;
+    }
+    .empty-div {
+      display: none;
+    }
+  }
+}
+}
