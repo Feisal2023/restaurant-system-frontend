@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../auth.module.scss";
 import Card from "../../../components/card/Card";
 import { BiLogIn } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import closeEYE from "../../../assets/eye-close.png";
 import openEYE from "../../../assets/eye-open.png";
 import { validateEmail } from "../../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { RESET_AUTH, login } from "../../../redux/features/auth/authSlice";
 const initialState = {
   email: "",
   password: "",
@@ -18,7 +20,13 @@ const Login = () => {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [passwordCharacters, setPasswordCharacters] = useState(false);
   const [emailInValid, setEmailInValid] = useState(false);
-
+  const [emailNotFound, setEmailNotFound] = useState(false);
+  const [invalidEmailOrPassword, setInvalidEmailOrPassword] = useState(false);
+  const { isLoading, isLoggedIn, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const passwordToggle = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -52,7 +60,35 @@ const Login = () => {
     } else {
       setPasswordCharacters(false);
     }
+    const userData = {
+      email,
+      password,
+    };
+
+    await dispatch(login(userData));
   };
+  useEffect(() => {
+    if (isSuccess && isLoggedIn) {
+      navigate("/users/user/home");
+    }
+    dispatch(RESET_AUTH());
+  }, [isSuccess, isLoggedIn, navigate, dispatch]);
+
+  useEffect(() => {
+    // validate if the user does not exist
+    if (message === "User does not exists") {
+      return setEmailNotFound(true);
+    } else {
+      setEmailNotFound(false);
+    }
+
+    // validate if password is incorrect
+    if (message === "Invalid Email or Password") {
+      return setInvalidEmailOrPassword(true);
+    } else {
+      setInvalidEmailOrPassword(false);
+    }
+  }, [message]);
   return (
     <div className={`container ${styles.auth}`}>
       <div className={styles["login-Symbol"]}>
@@ -68,7 +104,12 @@ const Login = () => {
               <label>Email</label>
               <div
                 className={`${styles["input-content"]} ${
-                  showEmailError || emailInValid ? "error" : ""
+                  showEmailError ||
+                  emailInValid ||
+                  emailNotFound ||
+                  invalidEmailOrPassword
+                    ? "error"
+                    : ""
                 }`}
               >
                 <input
@@ -86,6 +127,10 @@ const Login = () => {
                     ? `${styles.showError}`
                     : `${styles.hideError}` || emailInValid
                     ? `${styles.showError}`
+                    : `${styles.hideError}` || emailNotFound
+                    ? `${styles.showError}`
+                    : `${styles.hideError}` || invalidEmailOrPassword
+                    ? `${styles.showError}`
                     : `${styles.hideError}`
                 }
               >
@@ -93,6 +138,10 @@ const Login = () => {
                   ? "Email is required"
                   : "" || emailInValid
                   ? "Please enter a valid email"
+                  : "" || emailNotFound
+                  ? "User with this email does not exists"
+                  : "" || invalidEmailOrPassword
+                  ? "Invalid Email or Password"
                   : ""}
               </small>
             </div>

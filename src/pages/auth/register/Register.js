@@ -33,9 +33,7 @@ const Register = () => {
   const [phoneDigits, setPhoneDigits] = useState(false);
   const [passwordCharacters, setPasswordCharacters] = useState(false);
   const [passwordsMatch, setPasswordMatch] = useState(false);
-  const { isLoading, isSuccess, message, isError } = useSelector(
-    (state) => state.auth
-  );
+  const { isLoading, isSuccess, message } = useSelector((state) => state.auth);
   const [emailAlreadyRegistered, setEmailAlreadyRegistered] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
