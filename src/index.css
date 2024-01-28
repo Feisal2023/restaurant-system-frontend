@@ -62,6 +62,13 @@ section {
 
 /* UTILITY CLASSES */
 
+ /* styling error */
+.error {
+outline: none;
+border: 2px solid #ec5a36;
+border-radius: 5px;
+}
+
 /* Flex */
 .--flex-center {
   display: flex;

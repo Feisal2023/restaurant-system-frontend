@@ -37,7 +37,8 @@
         color: --color-dark;
         margin-bottom: 5px;
       }
-      .input-content {
+      
+      .input-content {  
         position: relative;
         input[type="text"],
         input[type="email"],
@@ -52,10 +53,12 @@
           border-radius: 3px;
           outline: none;
        
+          
         &:focus {
           outline: none;
           border: 1px solid #55c57a;
         }
+       
       }
       .toggle-img {
         position: absolute;
@@ -67,7 +70,14 @@
         height: 20px;
       }
       }
-      
+      .showError {
+        display: block;
+        color: #ec5a36;
+      }
+      .hideError {
+        display: none;
+        color: #ec5a36;
+      }
     }
   }
   .links {

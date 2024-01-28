@@ -5,11 +5,20 @@ import Card from "../../../components/card/Card";
 import { Link } from "react-router-dom";
 import closeEYE from "../../../assets/eye-close.png";
 import openEYE from "../../../assets/eye-open.png";
+
+const initialState = {
+  password1: "",
+  password2: "",
+};
 const Reset = () => {
   const [password1Visible, setPassword1Visible] = useState(false);
   const [password2Visible, setPassword2Visible] = useState(false);
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [formData, setFormData] = useState(initialState);
+  const { password1, password2 } = formData;
+  const [showPassword1Error, setShowPassword1Error] = useState(false);
+  const [showPassword2Error, setShowPassword2Error] = useState(false);
+  const [password1Characters, setPassword1Characters] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   const password1Toggle = () => {
     setPassword1Visible(!password1Visible);
@@ -17,6 +26,39 @@ const Reset = () => {
 
   const password2Toggle = () => {
     setPassword2Visible(!password2Visible);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const resetPassword = (e) => {
+    e.preventDefault();
+    // validate whether fields are empty
+    if (!password1) {
+      return setShowPassword1Error(true);
+    } else {
+      setShowPassword1Error(false);
+    }
+    if (!password2) {
+      return setShowPassword2Error(true);
+    } else {
+      setShowPassword2Error(false);
+    }
+
+    // checking if new password is at least 8 characters
+    if (password1.length < 8) {
+      return setPassword1Characters(true);
+    } else {
+      setPassword1Characters(false);
+    }
+    // checking whether password 1 and 2 are same
+    if (password1 !== password2) {
+      return setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
   };
 
   return (
@@ -29,17 +71,20 @@ const Reset = () => {
       </div>
       <Card>
         <div className={styles.form}>
-          <form>
+          <form onSubmit={resetPassword}>
             <div className={styles["form-group"]}>
               <label>Password</label>
-              <div className={styles["input-content"]}>
+              <div
+                className={`${styles["input-content"]} ${
+                  showPassword1Error || password1Characters ? "error" : ""
+                } `}
+              >
                 <input
                   type={password1Visible ? "text" : "password"}
                   placeholder="New Password"
-                  required
                   name="password1"
                   value={password1}
-                  onChange={(e) => setPassword1(e.target.value)}
+                  onChange={handleInputChange}
                 />
                 <img
                   src={password1Visible ? openEYE : closeEYE}
@@ -48,17 +93,35 @@ const Reset = () => {
                   onClick={password1Toggle}
                 />
               </div>
+              <small
+                className={
+                  showPassword1Error
+                    ? `${styles.showError}`
+                    : `${styles.hideError}` || password1Characters
+                    ? `${styles.showError}`
+                    : `${styles.hideError}`
+                }
+              >
+                {showPassword1Error
+                  ? "Password is required"
+                  : "" || password1Characters
+                  ? "Password must be at least 8 characters"
+                  : ""}
+              </small>
             </div>
             <div className={styles["form-group"]}>
               <label>Confirm Password</label>
-              <div className={styles["input-content"]}>
+              <div
+                className={`${styles["input-content"]} ${
+                  showPassword2Error || passwordsMatch ? "error" : ""
+                }`}
+              >
                 <input
                   type={password2Visible ? "text" : "password"}
                   placeholder="Confirm New Password"
-                  required
                   name="password2"
                   value={password2}
-                  onChange={(e) => setPassword2(e.target.value)}
+                  onChange={handleInputChange}
                 />
                 <img
                   src={password2Visible ? openEYE : closeEYE}
@@ -67,16 +130,31 @@ const Reset = () => {
                   onClick={password2Toggle}
                 />
               </div>
+              <small
+                className={
+                  showPassword2Error
+                    ? `${styles.showError}`
+                    : `${styles.hideError}` || passwordsMatch
+                    ? `${styles.showError}`
+                    : `${styles.hideError}`
+                }
+              >
+                {showPassword2Error
+                  ? "Confirm Password is required"
+                  : "" || passwordsMatch
+                  ? "Passwords do not match."
+                  : ""}
+              </small>
             </div>
             <button type="submit" className="--btn --btn-primary --btn-block">
               Reset Password
             </button>
             <div className={styles.links}>
               <p>
-                <Link to="/">- Home</Link>
+                <Link to="/users/login">- Home</Link>
               </p>
               <p>
-                <Link to="/login">- Login</Link>
+                <Link to="/users/login">- Login</Link>
               </p>
             </div>
           </form>

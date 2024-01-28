@@ -24,7 +24,7 @@ const Header = () => {
         <div className={styles["empty-div"]}></div>
         <div className={styles["sign-In"]}>
           <button>
-            <Link to="/login">Log In</Link>
+            <Link to="/users/login">Log In</Link>
           </button>
         </div>
       </div>
