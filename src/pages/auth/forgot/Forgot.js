@@ -2,8 +2,10 @@ import styles from "../auth.module.scss";
 import { AiOutlineMail } from "react-icons/ai";
 import Card from "../../../components/card/Card";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validateEmail } from "../../../utils";
+import { useSelector } from "react-redux";
+import { forgotPassword } from "../../../redux/features/auth/authService";
 const initialState = {
   email: "",
 };
@@ -12,11 +14,14 @@ const Forgot = () => {
   const { email } = formData;
   const [showEmailError, setShowEmailError] = useState(false);
   const [emailInValid, setEmailInValid] = useState(false);
+  const [emailNotFound, setEmailNotFound] = useState(false);
+  const { message } = useSelector(forgotPassword);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const forgot = (e) => {
+  const forgot = async (e) => {
     e.preventDefault();
     // confirm whether the email field is empty
     if (!email) {
@@ -30,7 +35,20 @@ const Forgot = () => {
     } else {
       setEmailInValid(false);
     }
+    const userData = {
+      email,
+    };
+    await forgotPassword(userData);
+    setFormData(initialState);
   };
+  useEffect(() => {
+    // validate if the user does not exist
+    if (message === "User does not exists") {
+      return setEmailNotFound(true);
+    } else {
+      setEmailNotFound(false);
+    }
+  }, [message]);
   return (
     <div className={`container ${styles.auth}`}>
       <div className={styles["login-Symbol"]}>
@@ -46,7 +64,7 @@ const Forgot = () => {
               <label>Email</label>
               <div
                 className={`${styles["input-content"]} ${
-                  showEmailError || emailInValid ? "error" : ""
+                  showEmailError || emailInValid || emailNotFound ? "error" : ""
                 }`}
               >
                 <input
@@ -62,6 +80,8 @@ const Forgot = () => {
                     ? `${styles.showError}`
                     : `${styles.hideError}` || emailInValid
                     ? `${styles.showError}`
+                    : `${styles.hideError}` || emailNotFound
+                    ? `${styles.showError}`
                     : `${styles.hideError}`
                 }
               >
@@ -69,6 +89,8 @@ const Forgot = () => {
                   ? "Email is required"
                   : "" || emailInValid
                   ? "Please enter a valid email"
+                  : "" || emailNotFound
+                  ? "User with this email does not exists"
                   : ""}
               </small>
             </div>

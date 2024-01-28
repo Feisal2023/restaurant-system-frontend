@@ -91,7 +91,7 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        console.log(state.message);
+        // console.log(state.message);
       });
   },
 });

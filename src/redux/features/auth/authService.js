@@ -18,6 +18,20 @@ const login = async (userData) => {
   return response.data.message;
 };
 
+// Forgot Password
+export const forgotPassword = async (userData) => {
+  try {
+    const response = await axios.post(API_URL + "forgotpassword", userData);
+    return response.data.message;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return message;
+  }
+};
+
 const authService = {
   register,
   login,
