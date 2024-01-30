@@ -188,7 +188,7 @@ const Login = () => {
               <p>Remember me</p>
             </div>
             <button type="submit" className="--btn --btn-primary --btn-block">
-              Login
+              {isLoading ? "Logging..." : "Login"}
             </button>
           </form>
         </div>

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styles from "../auth.module.scss";
 import { MdPassword } from "react-icons/md";
 import Card from "../../../components/card/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import closeEYE from "../../../assets/eye-close.png";
 import openEYE from "../../../assets/eye-open.png";
+import { resetPassword } from "../../../redux/features/auth/authService";
 
 const initialState = {
   password1: "",
@@ -19,10 +20,14 @@ const Reset = () => {
   const [showPassword2Error, setShowPassword2Error] = useState(false);
   const [password1Characters, setPassword1Characters] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(false);
-
+  const [resetExpired, setResetExpired] = useState(false);
+  const navigate = useNavigate();
   const password1Toggle = () => {
     setPassword1Visible(!password1Visible);
   };
+
+  const { resetToken } = useParams();
+  console.log(resetToken);
 
   const password2Toggle = () => {
     setPassword2Visible(!password2Visible);
@@ -33,7 +38,7 @@ const Reset = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const resetPassword = (e) => {
+  const PasswordReset = async (e) => {
     e.preventDefault();
     // validate whether fields are empty
     if (!password1) {
@@ -59,6 +64,20 @@ const Reset = () => {
     } else {
       setPasswordsMatch(false);
     }
+
+    const userData = {
+      password1,
+    };
+    const response = await resetPassword(userData, resetToken);
+    console.log(response);
+    if (response === "Invalid or Expired Token") {
+      return setResetExpired(true);
+    } else {
+      setResetExpired(false);
+    }
+    await resetPassword(userData, resetToken);
+    navigate("/users/login");
+    setFormData(initialState);
   };
 
   return (
@@ -71,12 +90,14 @@ const Reset = () => {
       </div>
       <Card>
         <div className={styles.form}>
-          <form onSubmit={resetPassword}>
+          <form onSubmit={PasswordReset}>
             <div className={styles["form-group"]}>
               <label>Password</label>
               <div
                 className={`${styles["input-content"]} ${
-                  showPassword1Error || password1Characters ? "error" : ""
+                  showPassword1Error || password1Characters || resetExpired
+                    ? "error"
+                    : ""
                 } `}
               >
                 <input
@@ -99,6 +120,8 @@ const Reset = () => {
                     ? `${styles.showError}`
                     : `${styles.hideError}` || password1Characters
                     ? `${styles.showError}`
+                    : `${styles.hideError}` || resetExpired
+                    ? `${styles.showError}`
                     : `${styles.hideError}`
                 }
               >
@@ -106,6 +129,8 @@ const Reset = () => {
                   ? "Password is required"
                   : "" || password1Characters
                   ? "Password must be at least 8 characters"
+                  : "" || resetExpired
+                  ? "Invalid or Expired Token"
                   : ""}
               </small>
             </div>

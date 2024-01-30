@@ -2,9 +2,8 @@ import styles from "../auth.module.scss";
 import { AiOutlineMail } from "react-icons/ai";
 import Card from "../../../components/card/Card";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { validateEmail } from "../../../utils";
-import { useSelector } from "react-redux";
 import { forgotPassword } from "../../../redux/features/auth/authService";
 const initialState = {
   email: "",
@@ -15,8 +14,8 @@ const Forgot = () => {
   const [showEmailError, setShowEmailError] = useState(false);
   const [emailInValid, setEmailInValid] = useState(false);
   const [emailNotFound, setEmailNotFound] = useState(false);
-  const { message } = useSelector(forgotPassword);
-
+  // const { message } = useSelector((state) => state.auth);
+  // const message = forgotPassword();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -38,17 +37,17 @@ const Forgot = () => {
     const userData = {
       email,
     };
-    await forgotPassword(userData);
-    setFormData(initialState);
-  };
-  useEffect(() => {
-    // validate if the user does not exist
+
+    const message = await forgotPassword(userData);
     if (message === "User does not exists") {
       return setEmailNotFound(true);
     } else {
       setEmailNotFound(false);
     }
-  }, [message]);
+
+    setFormData(initialState);
+  };
+
   return (
     <div className={`container ${styles.auth}`}>
       <div className={styles["login-Symbol"]}>
@@ -71,6 +70,7 @@ const Forgot = () => {
                   type="email"
                   placeholder="Email"
                   name="email"
+                  value={email}
                   onChange={handleInputChange}
                 />
               </div>
