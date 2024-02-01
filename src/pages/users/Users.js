@@ -1,7 +1,8 @@
 import React from "react";
+import UserNavbar from "../../components/userNavbar/UserNavbar";
 
 const Users = () => {
-  return <h1>Dear client Welcome to our amazing restaurant system services</h1>;
+  return <UserNavbar />;
 };
 
 export default Users;

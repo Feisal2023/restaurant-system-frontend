@@ -6,7 +6,30 @@ import Reset from "./pages/auth/reset/Reset";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Users from "./pages/users/Users";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getLoginStatus,
+  getUser,
+  selectIsLoggedIn,
+  selectUser,
+} from "./redux/features/auth/authSlice";
+import axios from "axios";
 function App() {
+  axios.defaults.withCredentials = true;
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
+  useEffect(() => {
+    dispatch(getLoginStatus());
+    console.log("Get Login Status App");
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn && user === null) {
+      dispatch(getUser());
+    }
+  }, [dispatch, isLoggedIn, user]);
   return (
     <div className="App">
       <Header />

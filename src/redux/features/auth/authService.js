@@ -47,9 +47,30 @@ export const resetPassword = async (userData, resetToken) => {
     return message;
   }
 };
+
+// get login status
+const getLoginStatus = async () => {
+  const response = await axios.get(API_URL + "getLoginStatus");
+  return response.data;
+};
+
+//  get user
+const getUser = async () => {
+  const response = await axios.get(API_URL + "getUser");
+  return response.data;
+};
+
+// logout user
+const logoutUser = async () => {
+  const response = await axios.get(API_URL + "logout");
+  return response.data.message;
+};
 const authService = {
   register,
   login,
+  getLoginStatus,
+  getUser,
+  logoutUser,
 };
 
 export default authService;
