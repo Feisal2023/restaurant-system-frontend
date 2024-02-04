@@ -101,6 +101,7 @@ const authSlice = createSlice({
   reducers: {
     RESET_AUTH(state) {
       state.isError = false;
+      state.isLoggedIn = false;
       state.isSuccess = false;
       state.isLoading = false;
       state.message = "";
@@ -134,6 +135,7 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
+        console.log(state.user);
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;

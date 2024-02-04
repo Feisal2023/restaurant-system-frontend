@@ -1,0 +1,74 @@
+.avatar img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
+
+.avatar-profile {
+  cursor: pointer;
+}
+.profile {
+  position: relative;
+  .menu {
+    position: absolute;
+    top: 6.5rem;
+    right: 0.5rem;
+    background-color: var(--color-white);
+    width: 24rem;
+    padding: 1rem 0;
+    border-radius: 3px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-1rem);
+    transition: all 0.3s;
+  
+    &.menuActive {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+    
+    }
+  
+   
+  
+    .menu-body {
+      ul {
+        width: 100%;
+        list-style: none;
+       
+      
+        li {
+          a {
+          display: grid;
+          grid-template-columns: 20px auto;
+          width: 100%;
+          padding: 0.5rem 1rem;
+          align-items: center;
+          gap: 10px;
+          font-size: 1.4rem;
+          font-weight: 400;
+          text-decoration: none;
+          color: var(--dark-grey);
+          transition: all 0.1s;
+          
+       &:hover {
+            background-color: rgba(182, 223, 240, 0.3);
+            font-weight: 700;
+            color: orangered;
+          }
+        }
+      }
+      }
+    }
+  
+}
+
+  .log-out {
+    border: 1px solid var(--grey);
+  }
+
+
+

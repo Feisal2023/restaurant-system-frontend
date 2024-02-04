@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import styles from "./header.module.scss";
 import { IoRestaurant } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import ShowOnLogin, { ShowOnLogout } from "../hiddenLinks/hiddenLinks";
-import { useDispatch } from "react-redux";
-import { RESET_AUTH, logoutUser } from "../../redux/features/auth/authSlice";
+import { Link } from "react-router-dom";
+import { ShowOnLogout } from "../hiddenLinks/hiddenLinks";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [scrollPage, setScrollPage] = useState(false);
   const fixedNavbar = () => {
     if (window.scrollY > 50) {
@@ -18,13 +14,6 @@ const Header = () => {
     }
   };
   window.addEventListener("scroll", fixedNavbar);
-  // logout User function
-  const logout = async () => {
-    dispatch(RESET_AUTH());
-    await dispatch(logoutUser());
-    window.location.reload();
-    navigate("/users/login");
-  };
   return (
     <header className={scrollPage ? `${styles.fixed}` : null}>
       <div className={styles.header}>
@@ -40,13 +29,6 @@ const Header = () => {
               <Link to="/users/login">Log In</Link>
             </button>
           </ShowOnLogout>
-          <ShowOnLogin>
-            <button>
-              <Link to="/users/login" onClick={logout}>
-                Log Out
-              </Link>
-            </button>
-          </ShowOnLogin>
         </div>
       </div>
     </header>

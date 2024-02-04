@@ -7,7 +7,7 @@ import closeEYE from "../../../assets/eye-close.png";
 import openEYE from "../../../assets/eye-open.png";
 import { validateEmail } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { RESET_AUTH, login } from "../../../redux/features/auth/authSlice";
+import { login } from "../../../redux/features/auth/authSlice";
 const initialState = {
   email: "",
   password: "",
@@ -71,7 +71,6 @@ const Login = () => {
     if (isSuccess && isLoggedIn) {
       navigate("/users/user/home");
     }
-    dispatch(RESET_AUTH());
   }, [isSuccess, isLoggedIn, navigate, dispatch]);
 
   useEffect(() => {

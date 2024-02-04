@@ -1,0 +1,16 @@
+.card {
+  border-top:  5px solid orangered;
+  border-bottom:  3px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  width: 1200px;
+  height: 90vh;
+  padding: 20px 10px;
+}
+
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+  }
+}

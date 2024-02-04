@@ -15,7 +15,8 @@ const login = async (userData) => {
   const response = await axios.post(API_URL + "login", userData, {
     withCredentials: true,
   });
-  return response.data.message;
+  console.log(response.data);
+  return response.data;
 };
 
 // Forgot Password
