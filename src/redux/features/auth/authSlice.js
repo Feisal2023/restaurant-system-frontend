@@ -123,7 +123,6 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        // console.log(state.message)
       })
 
       // login user
@@ -135,14 +134,12 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
-        console.log(state.user);
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        // console.log(state.message);
       })
 
       // get login status
@@ -153,7 +150,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = action.payload;
-        console.log(action.payload);
         if (action.payload.message === "invalid signature") {
           state.isLoggedIn = false;
         }
@@ -162,7 +158,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        console.log(action.payload);
       })
 
       // get user
@@ -174,13 +169,11 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
-        console.log(action.payload);
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        console.log(action.payload);
       })
 
       // logout user
@@ -192,13 +185,11 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = false;
         state.user = null;
-        console.log(action.payload);
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        console.log(action.payload);
       });
   },
 });
